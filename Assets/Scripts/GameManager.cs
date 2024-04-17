@@ -79,14 +79,8 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         totalTime = 0.0f;
-        Invoke("TimeStop", 0.5f);
-        retryButton.SetActive(true);
-    }
-
-    // 게임 시간 멈춤
-    void TimeStop()
-    {
         Time.timeScale = 0.0f;
+        retryButton.SetActive(true);
     }
 
     // 팀 카드를 선택하는 함수
@@ -170,7 +164,7 @@ public class GameManager : MonoBehaviour
         // 모든 카드가 매칭되면 게임 종료
         if (cardCount == 0)
         {
-            Invoke("TimeStop", 0.5f);
+            Time.timeScale = 0.0f;
             retryButton.SetActive(true);
         }
     }
