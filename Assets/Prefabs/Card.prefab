@@ -343,6 +343,7 @@ MonoBehaviour:
   front: {fileID: 4722028275137277825}
   back: {fileID: 1281322224750012383}
   frontImage: {fileID: 2497358116851126858}
+  backImage: {fileID: 7775889820840294250}
   anim: {fileID: 1692831020109926154}
   audioClip: {fileID: 8300000, guid: c22da105e17d61c47bf444693f216f13, type: 3}
   idx: 0

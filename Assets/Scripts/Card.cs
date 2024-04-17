@@ -10,6 +10,9 @@ public class Card : MonoBehaviour
     //앞면 이미지
     public SpriteRenderer frontImage;
 
+    //뒷면 이미지
+    public SpriteRenderer backImage;
+
     //애니메이터
     public Animator anim;
 
@@ -42,6 +45,12 @@ public class Card : MonoBehaviour
 
         //카드가 열어질 때, 뒤집어지는 함수
         StartCoroutine(CoroutineOpenCard());
+
+        //카드를 1번이라도 오픈했으면, 옅은 회색으로 색 변경
+        if(backImage.color == Color.white)
+        {
+            backImage.color = new Color(200.0f / 255.0f, 200.0f / 255.0f, 200.0f / 255.0f);
+        }
 
         // 선택된 카드가 없으면
         if (GameManager.Instance.selectedCard == null)
