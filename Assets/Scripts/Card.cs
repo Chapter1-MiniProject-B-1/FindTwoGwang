@@ -44,20 +44,20 @@ public class Card : MonoBehaviour
         StartCoroutine(CoroutineOpenCard());
 
         // 선택된 카드가 없으면
-        if (GameManager.Instance.selectedCard == null) 
+        if (GameManager.Instance.selectedCard == null)
         {
             // 현재 카드를 선택된 카드로 설정하고
             GameManager.Instance.selectedCard = this;
 
             // 선택된 카드와 팀 카드의 일치 여부 검사
-            GameManager.Instance.CheckMatch(); 
+            GameManager.Instance.CheckMatch();
         }
     }
 
     public void CloseCard()
     {
         //카드가 닫아질 때, 뒤집어지는 함수
-        StartCoroutine(CoroutineCloseCard()); 
+        StartCoroutine(CoroutineCloseCard());
     }
 
     public void DestroyCard()
@@ -90,7 +90,7 @@ public class Card : MonoBehaviour
         front.SetActive(false);
 
         //뒷면 활성화
-        back.SetActive(true); 
+        back.SetActive(true);
     }
 
     // 인덱스에 따른 이미지 설정

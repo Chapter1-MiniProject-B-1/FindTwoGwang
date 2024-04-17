@@ -4,8 +4,8 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
-    AudioSource audioSource;
     public AudioClip clip;
+    private AudioSource audioSource;
 
     private void Awake()
     {
@@ -25,6 +25,7 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
+        // AudioSource 컴포넌트 참조
         audioSource = GetComponent<AudioSource>();
 
         audioSource.clip = this.clip;

@@ -6,7 +6,6 @@ public class Board : MonoBehaviour
     public GameObject card;
 
     public int teamCardsCount = 5;
-
     private int[] imageIndexes;
 
     void Start()
@@ -14,19 +13,15 @@ public class Board : MonoBehaviour
         // 이미지 인덱스 배열 초기화
         imageIndexes = new int[teamCardsCount];
 
-        // 카드 인덱스 배열을 생성
+        // 카드 인덱스 배열을 생성 후 랜덤하게 섞기
         int[] cardIndexes = Enumerable.Range(0, 20).ToArray();
-
-        // 카드 인덱스 배열을 랜덤하게 섞기
         cardIndexes = cardIndexes.OrderBy(x => Random.Range(0, 20)).ToArray();
 
-        // 팀 카드 인덱스를 4번 반복하여 배열 생성
+        // 팀 카드 인덱스를 4번 반복하여 배열 생성 후 랜덤하게 섞기
         int[] teamCardDistribution = Enumerable
             .Repeat(Enumerable.Range(0, teamCardsCount), 4) // 0부터 teamCardsCount-1까지의 범위를 생성하고, 이 범위를 4번 반복
             .SelectMany(x => x) // 생성된 여러 시퀀스를 하나의 시퀀스로 평탄화
             .ToArray(); // 평탄화된 시퀀스를 배열로 변환
-
-        // 팀 카드 배열을 랜덤하게 섞기
         teamCardDistribution = teamCardDistribution
             .OrderBy(x => Random.Range(0, teamCardDistribution.Length)) // 배열의 각 요소에 대해 랜덤 숫자를 기준으로 정렬
             .ToArray(); // 정렬된 결과를 다시 배열로 변환

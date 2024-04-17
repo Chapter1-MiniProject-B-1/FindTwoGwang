@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //오디오 소스를 얻어옴
+        // AudioSource 컴포넌트 참조
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
             GameOver();
         }
 
-        // TODO: 시간이 촉박 할 때 게이머에게 경고 기능
+        // 시간이 촉박 할 때 게이머에게 경고 기능
         if (totalTime <= 10.0f && totalTime > 0.0f)
         {
             //10초 남으면 붉게 변하는 애니메이션 트리거 작동 함수 호출
@@ -92,71 +92,108 @@ public class GameManager : MonoBehaviour
     // 팀 카드를 선택하는 함수
     public void SelectTeamCard(TeamCard teamCard)
     {
-        // 이미 선택된 팀 카드가 있으면 추가 선택 불가
-        if (this.teamCard != null)
-            return;
-
-        // 새 팀 카드 선택
+        if (this.teamCard != null && this.teamCard != teamCard)
+        {
+            // 이미 다른 카드가 선택되어 있으면 해제 후 새 카드 선택
+            this.teamCard.ToggleSelection();  // 기존 카드의 선택 상태 해제
+        }
         this.teamCard = teamCard;
+    }
+
+    // 팀 카드를 선택 해제하는 함수
+    public void DeselectTeamCard(TeamCard teamCard)
+    {
+        if (this.teamCard == teamCard)
+        {
+            this.teamCard = null;  // 선택된 팀 카드 해제
+        }
     }
 
     // 선택된 카드와 팀 카드의 일치 여부 검사
     public void CheckMatch()
     {
-        // 팀 카드와 하단 카드 모두 선택했고, 두 카드의 인덱스가 같을 때
-        if (selectedCard != null && teamCard != null && selectedCard.teamIdx == teamCard.teamCardIndex)
+        if (selectedCard != null && teamCard != null)
         {
-            // 매칭 성공 시 팀원의 이름 표시
-            if (teamCard.teamCardIndex == 0)
+            if (selectedCard.teamIdx == teamCard.teamCardIndex)
             {
-                Kim.SetActive(true);
-                Invoke("KimInvoke", 0.5f);
+                // 매칭 성공
+                MatchSuccess();
             }
-            if (teamCard.teamCardIndex == 1)
+            else
             {
-                Park.SetActive(true);
-                Invoke("ParkInvoke", 0.5f);
-            }
-            if (teamCard.teamCardIndex == 2)
-            {
-                Bae.SetActive(true);
-                Invoke("BaeInvoke", 0.5f);
-            }
-            if (teamCard.teamCardIndex == 3)
-            {
-                Jeong.SetActive(true);
-                Invoke("JeongInvoke", 0.5f);
-            }
-            if (teamCard.teamCardIndex == 4)
-            {
-                Jin.SetActive(true);
-                Invoke("JinInvoke", 0.5f);
+                // 매칭 실패
+                MatchFail();
             }
 
-            //오디오 클립을 재생
-            audioSource.PlayOneShot(matchClip);
-
-            // 카드 일치 시 파괴
-            selectedCard.DestroyCard();
-            cardCount -= 1;
-
-            // 모든 카드가 매칭되면 게임 종료
-            if (cardCount == 0)
-            {
-                Invoke("TimeStop", 0.5f);
-                retryButton.SetActive(true);
-            }
+            // 선택 상태 및 색상을 리셋
+            ResetSelectionAndColor();
         }
-        else
+    }
+
+    // 매칭 성공 시 수행할 로직
+    private void MatchSuccess()
+    {
+        // 매칭 성공 시 팀원의 이름 표시
+        if (teamCard.teamCardIndex == 0)
         {
-            Fail.gameObject.SetActive(true);
-            Invoke("FailInvoke", 0.5f);
+            Kim.SetActive(true);
+            Invoke("KimInvoke", 0.5f);
+        }
+        if (teamCard.teamCardIndex == 1)
+        {
+            Park.SetActive(true);
+            Invoke("ParkInvoke", 0.5f);
+        }
+        if (teamCard.teamCardIndex == 2)
+        {
+            Bae.SetActive(true);
+            Invoke("BaeInvoke", 0.5f);
+        }
+        if (teamCard.teamCardIndex == 3)
+        {
+            Jeong.SetActive(true);
+            Invoke("JeongInvoke", 0.5f);
+        }
+        if (teamCard.teamCardIndex == 4)
+        {
+            Jin.SetActive(true);
+            Invoke("JinInvoke", 0.5f);
+        }
 
-            //오디오 클립을 재생
-            audioSource.PlayOneShot(failClip);
+        //오디오 클립을 재생
+        audioSource.PlayOneShot(matchClip);
 
-            // 일치하지 않으면 카드 닫기
-            selectedCard.CloseCard();
+        // 카드 일치 시 파괴
+        selectedCard.DestroyCard();
+        cardCount -= 1;
+
+        // 모든 카드가 매칭되면 게임 종료
+        if (cardCount == 0)
+        {
+            Invoke("TimeStop", 0.5f);
+            retryButton.SetActive(true);
+        }
+    }
+
+    // 매칭 실패 시 수행할 로직
+    private void MatchFail()
+    {
+        Fail.gameObject.SetActive(true);
+        Invoke("FailInvoke", 0.5f);
+
+        //오디오 클립을 재생
+        audioSource.PlayOneShot(failClip);
+
+        // 일치하지 않으면 카드 닫기
+        selectedCard.CloseCard();
+    }
+
+    // 선택된 카드와 팀 카드의 상태 및 색상 리셋
+    private void ResetSelectionAndColor()
+    {
+        if (teamCard != null)
+        {
+            teamCard.ResetSelection();  // TeamCard 클래스에서 구현해야 함
         }
 
         // 선택된 카드와 팀 카드 초기화
