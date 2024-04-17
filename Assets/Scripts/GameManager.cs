@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     public Text timeTxt;
     public GameObject retryButton;
 
+    private TimerShake timershake;
+    private GameObject obj;
+
     public GameObject Kim;
     public GameObject Park;
     public GameObject Bae;
@@ -35,6 +38,15 @@ public class GameManager : MonoBehaviour
 
         // 시간 설정 초기화
         Time.timeScale = 1.0f;
+
+        //타이머 텍스트 오브젝트의 타이머 스크립트 참조
+        if (obj = GameObject.Find("TimeTxt"))
+        {
+            if (!obj.TryGetComponent(out timershake))
+            {
+                Debug.Log("GameManager.cs - Awake() - alert 참조 실패");
+            }
+        }
     }
 
     void Start()
@@ -56,6 +68,11 @@ public class GameManager : MonoBehaviour
         }
 
         // TODO: 시간이 촉박 할 때 게이머에게 경고 기능
+        if (totalTime <= 10.0f && totalTime > 0.0f)
+        {
+            //10초 남으면 붉게 변하는 애니메이션 트리거 작동 함수 호출
+            timershake.AlertTime();
+        }
     }
 
     // 게임 종료 로직
