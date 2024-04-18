@@ -20,8 +20,7 @@ public class Card : MonoBehaviour
     AudioSource audioSource; //오디오 소스
     public AudioClip audioClip; //오디오 클립
 
-    public int idx = 0;
-    public int teamIdx = 0;
+    public int teamIndex = 0;
 
     void Start()
     {
@@ -32,7 +31,7 @@ public class Card : MonoBehaviour
     public void OpenCard()
     {
         // 팀 카드가 설정되지 않았다면 리턴
-        if (GameManager.Instance.teamCard == null)
+        if (GameManager.Instance.selectedTeamCard == null)
         {
             return;
         }
@@ -103,13 +102,12 @@ public class Card : MonoBehaviour
     }
 
     // 인덱스에 따른 이미지 설정
-    public void Setting(int number, int teamCardIndex, int imageIndex)
+    public void Setting(int teamIdx, int imgIdx)
     {
-        idx = number;
-        teamIdx = teamCardIndex;
+        teamIndex = teamIdx;
 
         // 이미지 설정에 사용되는 파일 이름
-        string imageName = $"team{teamIdx}_img{imageIndex}";
+        string imageName = $"team{teamIndex}_img{imgIdx}";
 
         // 카드 앞면 스프라이트에 이미지 할당
         frontImage.sprite = Resources.Load<Sprite>(imageName);

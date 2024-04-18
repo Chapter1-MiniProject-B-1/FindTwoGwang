@@ -26,7 +26,7 @@ public class TeamCard : MonoBehaviour
         }
     }
 
-    // 팀 카드 선택 상태를 토글하고 게임 매니저에 상태 업데이트
+    // 팀 카드 선택 상태를 전환하고 게임 매니저에 상태 업데이트
     public void ToggleSelection()
     {
         // 선택 상태 전환
@@ -46,7 +46,7 @@ public class TeamCard : MonoBehaviour
         }
     }
 
-    // 카드 색상을 현재 선택 상태에 따라 업데이트
+    // 선택 상태에 따라 카드 색상을 업데이트
     private void UpdateCardColor()
     {
         if (isSelected)
@@ -59,7 +59,7 @@ public class TeamCard : MonoBehaviour
         }
     }
 
-    // 카드의 선택 상태 및 색상 초기화
+    // 카드의 선택 상태 및 색상 리셋
     public void ResetSelection()
     {
         isSelected = false;

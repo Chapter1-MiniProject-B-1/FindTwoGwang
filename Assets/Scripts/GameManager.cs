@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public TeamCard teamCard;
+    public TeamCard selectedTeamCard;
     public Card selectedCard;
 
     public Text timeTxt;
@@ -86,29 +86,29 @@ public class GameManager : MonoBehaviour
     // 팀 카드를 선택하는 함수
     public void SelectTeamCard(TeamCard teamCard)
     {
-        if (this.teamCard != null && this.teamCard != teamCard)
+        if (this.selectedTeamCard != null && this.selectedTeamCard != teamCard)
         {
             // 이미 다른 카드가 선택되어 있으면 해제 후 새 카드 선택
-            this.teamCard.ToggleSelection();  // 기존 카드의 선택 상태 해제
+            this.selectedTeamCard.ToggleSelection();  // 기존 카드의 선택 상태 해제
         }
-        this.teamCard = teamCard;
+        this.selectedTeamCard = teamCard;
     }
 
     // 팀 카드를 선택 해제하는 함수
     public void DeselectTeamCard(TeamCard teamCard)
     {
-        if (this.teamCard == teamCard)
+        if (this.selectedTeamCard == teamCard)
         {
-            this.teamCard = null;  // 선택된 팀 카드 해제
+            this.selectedTeamCard = null;  // 선택된 팀 카드 해제
         }
     }
 
     // 선택된 카드와 팀 카드의 일치 여부 검사
     public void CheckMatch()
     {
-        if (selectedCard != null && teamCard != null)
+        if (selectedCard != null && selectedTeamCard != null)
         {
-            if (selectedCard.teamIdx == teamCard.teamCardIndex)
+            if (selectedCard.teamIndex == selectedTeamCard.teamCardIndex)
             {
                 // 매칭 성공
                 MatchSuccess();
@@ -128,27 +128,27 @@ public class GameManager : MonoBehaviour
     private void MatchSuccess()
     {
         // 매칭 성공 시 팀원의 이름 표시
-        if (teamCard.teamCardIndex == 0)
+        if (selectedTeamCard.teamCardIndex == 0)
         {
             Kim.SetActive(true);
             Invoke("KimInvoke", 0.5f);
         }
-        if (teamCard.teamCardIndex == 1)
+        if (selectedTeamCard.teamCardIndex == 1)
         {
             Park.SetActive(true);
             Invoke("ParkInvoke", 0.5f);
         }
-        if (teamCard.teamCardIndex == 2)
+        if (selectedTeamCard.teamCardIndex == 2)
         {
             Bae.SetActive(true);
             Invoke("BaeInvoke", 0.5f);
         }
-        if (teamCard.teamCardIndex == 3)
+        if (selectedTeamCard.teamCardIndex == 3)
         {
             Jeong.SetActive(true);
             Invoke("JeongInvoke", 0.5f);
         }
-        if (teamCard.teamCardIndex == 4)
+        if (selectedTeamCard.teamCardIndex == 4)
         {
             Jin.SetActive(true);
             Invoke("JinInvoke", 0.5f);
@@ -185,14 +185,15 @@ public class GameManager : MonoBehaviour
     // 선택된 카드와 팀 카드의 상태 및 색상 리셋
     private void ResetSelectionAndColor()
     {
-        if (teamCard != null)
+        if (selectedTeamCard != null)
         {
-            teamCard.ResetSelection();  // TeamCard 클래스에서 구현해야 함
+            // 선택된 팀 카드 상태 리셋
+            selectedTeamCard.ResetSelection();
         }
 
-        // 선택된 카드와 팀 카드 초기화
+        // 선택된 카드와 팀 카드 리셋
         selectedCard = null;
-        teamCard = null;
+        selectedTeamCard = null;
     }
 
     //표시된 이름 및 실패 표시 비활성화

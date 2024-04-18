@@ -5,31 +5,24 @@ public class Board : MonoBehaviour
 {
     public GameObject card;
 
-    public int teamCardsCount = 5;
-    private int[] imageIndexes;
+    public int teamCardCount = 5;
 
     void Start()
     {
-        // 이미지 인덱스 배열 초기화
-        imageIndexes = new int[teamCardsCount];
+        // 이미지 배열의 길이를 팀 카드 수에 맞게 초기화
+        int[] imgArr = new int[teamCardCount];
 
-        // 카드 인덱스 배열을 생성 후 랜덤하게 섞기
-        int[] cardIndexes = Enumerable.Range(0, 20).ToArray();
-        cardIndexes = cardIndexes.OrderBy(x => Random.Range(0, 20)).ToArray();
+        // 카드 배열을 생성 후 랜덤하게 섞기
+        int[] cardArr = Enumerable.Range(0, 20).ToArray();
+        cardArr = cardArr.OrderBy(x => Random.Range(0, 20)).ToArray();
 
-        // 팀 카드 인덱스를 4번 반복하여 배열 생성 후 랜덤하게 섞기
-        int[] teamCardDistribution = Enumerable
-            .Repeat(Enumerable.Range(0, teamCardsCount), 4) // 0부터 teamCardsCount-1까지의 범위를 생성하고, 이 범위를 4번 반복
-            .SelectMany(x => x) // 생성된 여러 시퀀스를 하나의 시퀀스로 평탄화
-            .ToArray(); // 평탄화된 시퀀스를 배열로 변환
-        teamCardDistribution = teamCardDistribution
-            .OrderBy(x => Random.Range(0, teamCardDistribution.Length)) // 배열의 각 요소에 대해 랜덤 숫자를 기준으로 정렬
-            .ToArray(); // 정렬된 결과를 다시 배열로 변환
+        // 팀 카드 배열을 생성 후 랜덤하게 섞기
+        int[] teamCardArr = Enumerable.Repeat(Enumerable.Range(0, teamCardCount), 4).SelectMany(x => x).ToArray();
+        teamCardArr = teamCardArr.OrderBy(x => Random.Range(0, teamCardArr.Length)).ToArray();
 
-        // 카드를 생성하여 게임 보드에 배치하고 각 카드에 인덱스 할당
         for (int i = 0; i < 20; i++)
         {
-            // card 오브젝트를 Board 오브젝트 아래에 생성
+            // Board 오브젝트 아래에 card 오브젝트 생성
             GameObject go = Instantiate(card, this.transform);
 
             // card 오브젝트의 위치 설정
@@ -37,18 +30,18 @@ public class Board : MonoBehaviour
             float y = (i / 4) * 1.3f - 3.8f;
             go.transform.position = new Vector2(x, y);
 
-            // 팀 카드 분배 배열에서 i번째 카드의 팀 인덱스를 가져옴
-            int teamIdx = teamCardDistribution[i];
-            // 해당 팀 인덱스의 현재 이미지 인덱스를 가져옴
-            int imgIdx = imageIndexes[teamIdx];
-            // 해당 팀의 이미지 인덱스를 하나 증가시키고, 4개의 이미지를 순환
-            imageIndexes[teamIdx] = (imgIdx + 1) % 4;
+            // 팀 카드 배열에서 현재 카드의 팀 인덱스를 가져옴
+            int teamIdx = teamCardArr[i];
+            // 해당 팀 인덱스를 사용하여 이미지 배열에서 이미지 인덱스를 가져옴
+            int imgIdx = imgArr[teamIdx];
+            // 이미지 인덱스를 업데이트하여 같은 팀에서 다음 카드에 다른 이미지를 할당
+            imgArr[teamIdx] = (imgIdx + 1) % 4;
 
-            // 랜덤으로 생성된 인덱스 번호와 이미지 인덱스를 카드 스크립트의 Setting 메소드에 전달
-            go.GetComponent<Card>().Setting(cardIndexes[i], teamIdx, imgIdx);
+            // Setting 메소드에 카드 인덱스, 팀 인덱스, 이미지 인덱스를 넘겨줌
+            go.GetComponent<Card>().Setting(teamIdx, imgIdx);
         }
 
         // GameManager에 생성된 카드 수를 업데이트
-        GameManager.Instance.cardCount = cardIndexes.Length;
+        GameManager.Instance.cardCount = cardArr.Length;
     }
 }
