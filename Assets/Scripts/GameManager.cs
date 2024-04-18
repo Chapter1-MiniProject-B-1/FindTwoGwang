@@ -9,9 +9,8 @@ public class GameManager : MonoBehaviour
     public Card selectedCard;
 
     public Text timeTxt;
-    public GameObject retryButton;
-    public GameObject gameOverText;
-    public GameObject gameClearText;
+    public GameObject gameClearPannel;
+    public GameObject gameOverPannel;
 
     private TimerShake timershake;
     private GameObject obj;
@@ -82,8 +81,9 @@ public class GameManager : MonoBehaviour
     {
         totalTime = 0.0f;
         Time.timeScale = 0.0f;
-        retryButton.SetActive(true);
-        gameOverText.SetActive(true);
+        //retryButton.SetActive(true);
+        //gameOverText.SetActive(true);
+        gameOverPannel.SetActive(true);
     }
 
     // 팀 카드를 선택하는 함수
@@ -175,8 +175,6 @@ public class GameManager : MonoBehaviour
         if (cardCount == 0)
         {
             Invoke("GameClear", 0.5f);
-            //Time.timeScale = 0.0f;
-            //retryButton.SetActive(true);
         }
     }
 
@@ -236,7 +234,6 @@ public class GameManager : MonoBehaviour
     void GameClear()
     {
         Time.timeScale = 0.0f;
-        retryButton.SetActive(true);
-        gameClearText.SetActive(true);
+        gameClearPannel.SetActive(true);
     }
 }
