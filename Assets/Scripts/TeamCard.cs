@@ -15,15 +15,6 @@ public class TeamCard : MonoBehaviour
 
         // Sprite Renderer 컴포넌트 참조
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        // 버튼 컴포넌트 참조
-        Button button = GetComponent<Button>();
-
-        // 버튼 클릭 이벤트 리스너 설정
-        if (button != null)
-        {
-            button.onClick.AddListener(ToggleSelection);
-        }
     }
 
     // 팀 카드 선택 상태를 전환하고 게임 매니저에 상태 업데이트
