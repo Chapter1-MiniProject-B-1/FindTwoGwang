@@ -81,9 +81,13 @@ public class GameManager : MonoBehaviour
     {
         totalTime = 0.0f;
         Time.timeScale = 0.0f;
-        //retryButton.SetActive(true);
-        //gameOverText.SetActive(true);
         gameOverPannel.SetActive(true);
+    }
+
+    void GameClear()
+    {
+        Time.timeScale = 0.0f;
+        gameClearPannel.SetActive(true);
     }
 
     // 팀 카드를 선택하는 함수
@@ -191,20 +195,6 @@ public class GameManager : MonoBehaviour
         selectedCard.CloseCard();
     }
 
-    // 선택된 카드와 팀 카드의 상태 및 색상 리셋
-    /*private void ResetSelectionAndColor()
-    {
-        if (selectedTeamCard != null)
-        {
-            // 선택된 팀 카드 상태 리셋
-            selectedTeamCard.ResetSelection();
-        }
-
-        // 선택된 카드와 팀 카드 리셋
-        selectedCard = null;
-        selectedTeamCard = null;
-    }*/
-
     //표시된 이름 및 실패 표시 비활성화
     void KimInvoke()
     {
@@ -229,11 +219,5 @@ public class GameManager : MonoBehaviour
     void FailInvoke()
     {
         Fail.SetActive(false);
-    }
-
-    void GameClear()
-    {
-        Time.timeScale = 0.0f;
-        gameClearPannel.SetActive(true);
     }
 }
