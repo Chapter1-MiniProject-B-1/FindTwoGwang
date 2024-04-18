@@ -8,6 +8,8 @@ public class TeamCard : MonoBehaviour
     public int teamCardIndex;
     private bool isSelected = false;
 
+    public int life = 4;
+
     void Start()
     {
         // 카드의 인덱스를 부모 오브젝트 내 순서로 설정
@@ -55,5 +57,10 @@ public class TeamCard : MonoBehaviour
     {
         isSelected = false;
         spriteRenderer.color = Color.white;
+    }
+
+    public void DestroyTeamCard()
+    {
+        Destroy(gameObject);
     }
 }

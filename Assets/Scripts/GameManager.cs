@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 
     public Text timeTxt;
     public GameObject retryButton;
+    public GameObject gameOverText;
+    public GameObject gameClearText;
 
     private TimerShake timershake;
     private GameObject obj;
@@ -81,6 +83,7 @@ public class GameManager : MonoBehaviour
         totalTime = 0.0f;
         Time.timeScale = 0.0f;
         retryButton.SetActive(true);
+        gameOverText.SetActive(true);
     }
 
     // 팀 카드를 선택하는 함수
@@ -120,7 +123,7 @@ public class GameManager : MonoBehaviour
             }
 
             // 선택 상태 및 색상을 리셋
-            ResetSelectionAndColor();
+            selectedCard = null;
         }
     }
 
@@ -161,11 +164,19 @@ public class GameManager : MonoBehaviour
         selectedCard.DestroyCard();
         cardCount -= 1;
 
+        //자신의 카드를 다 찾으면 팀 카드를 삭제 해주는 코드
+        selectedTeamCard.life -= 1;
+        if(selectedTeamCard.life ==0)
+        {
+            selectedTeamCard.DestroyTeamCard();
+        }
+
         // 모든 카드가 매칭되면 게임 종료
         if (cardCount == 0)
         {
-            Time.timeScale = 0.0f;
-            retryButton.SetActive(true);
+            Invoke("GameClear", 0.5f);
+            //Time.timeScale = 0.0f;
+            //retryButton.SetActive(true);
         }
     }
 
@@ -183,7 +194,7 @@ public class GameManager : MonoBehaviour
     }
 
     // 선택된 카드와 팀 카드의 상태 및 색상 리셋
-    private void ResetSelectionAndColor()
+    /*private void ResetSelectionAndColor()
     {
         if (selectedTeamCard != null)
         {
@@ -194,7 +205,7 @@ public class GameManager : MonoBehaviour
         // 선택된 카드와 팀 카드 리셋
         selectedCard = null;
         selectedTeamCard = null;
-    }
+    }*/
 
     //표시된 이름 및 실패 표시 비활성화
     void KimInvoke()
@@ -220,5 +231,12 @@ public class GameManager : MonoBehaviour
     void FailInvoke()
     {
         Fail.SetActive(false);
+    }
+
+    void GameClear()
+    {
+        Time.timeScale = 0.0f;
+        retryButton.SetActive(true);
+        gameClearText.SetActive(true);
     }
 }
